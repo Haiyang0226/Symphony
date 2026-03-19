@@ -32,7 +32,7 @@ Symphony consists of five specialized agents orchestrated by a central planning 
 4.  **Subtitle Agent:** Analyzes textual subtitles for entity recognition, sentiment analysis, and topic modeling.
 5.  **Visual Perception Agent:** Conducts multi-dimensional visual perception using tools like frame inspector, global summary, and multi-segment analysis.
 
-![Framework Overview](figures/framework.png)
+![Framework Overview](framework.png)
 *(Figure: The reflection-enhanced dynamic reasoning framework in Symphony.)*
 
 ## 📊 Performance
