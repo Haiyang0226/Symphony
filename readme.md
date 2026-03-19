@@ -44,7 +44,7 @@ Symphony achieves state-of-the-art performance across four representative LVU da
 | **Commercial VLMs** | | | | |
 | Gemini-1.5-Pro | 33.1 | 64.0 | 67.4 | - |
 | GPT-4o | 48.9 | 66.7 | 65.3 | 54.9 |
-| **Open-Source VLMs** | | | | |
+| **VLMs** | | | | |
 | Seed 1.6 VL | 58.1 | 66.1 | 68.4 | 65.3 |
 | **Agent Based** | | | | |
 | DVD | 66.8 | 67.2 | 61.5 | - |
@@ -53,13 +53,6 @@ Symphony achieves state-of-the-art performance across four representative LVU da
 
 *On the challenging LVBench, Symphony surpasses the prior state-of-the-art method by **5.0%**.*
 
-## 🛠️ Implementation Details
-
-- **Planning & Reflection Agents:** DeepSeek R1
-- **Subtitle Agent:** DeepSeek V3
-- **Visual Perception & Grounding Agents:** Doubao Seed 1.6 VL
-- **Input Constraints:** Max 40 frames, resolution capped at 720p.
-- **Grounding:** VLM-based scoring uses 60s segments with 30 sampled frames.
 
 ## 📦 Installation & Usage
 
@@ -89,12 +82,14 @@ Symphony achieves state-of-the-art performance across four representative LVU da
 If you find Symphony useful in your research, please consider citing our paper:
 
 ```bibtex
-@article{yan2025symphony,
-  title={Symphony: A Cognitively-Inspired Multi-Agent System for Long-Video Understanding},
-  author={Yan, Haiyang and Zhou, Hongyun and Xu, Peng and Feng, Xiaoxue and Liu, Mengyi},
-  journal={arXiv preprint},
-  year={2025},
-  affiliation={Institute of Automation, Chinese Academy of Sciences; Kuaishou Technology; University of Chinese Academy of Sciences}
+@article{yan2026symphony,
+  title   = {Symphony: A Cognitively-Inspired Multi-Agent System for Long-Video Understanding},
+  author  = {Yan, Haiyang and Zhou, Hongyun and Xu, Peng and Feng, Xiaoxue and Liu, Mengyi},
+  journal = {arXiv preprint arXiv:2603.17307},
+  year    = {2026},
+  eprint  = {2603.17307},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CV}
 }
 ```
 
@@ -107,5 +102,3 @@ This work was done during an internship at **Kuaishou Technology**. We thank the
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
-
-For more details, please refer to the [full paper](camera ready.pdf).
