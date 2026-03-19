@@ -1,6 +1,6 @@
 # Symphony: A Cognitively-Inspired Multi-Agent System for Long-Video Understanding
 
-[![Paper](https://img.shields.io/badge/Paper-arXiv-red)](https://arxiv.org/abs/xxxx.xxxxx) 
+[![Paper](https://img.shields.io/badge/Paper-arXiv-red)](https://arxiv.org/abs/2603.17307) 
 [![Code](https://img.shields.io/badge/Code-GitHub-green)](https://github.com/Haiyang0226/Symphony)
 [![License](https://img.shields.io/badge/License-MIT-blue)](LICENSE)
 
