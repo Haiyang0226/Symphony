@@ -8,6 +8,8 @@
 
 ## 📖 Introduction
 
+We are currently organizing the code.
+
 Long-form video understanding is critical for applications like sports commentary, intelligent surveillance, and film analysis. However, existing Multimodal Large Language Model (MLLM) agents struggle with high information density and extended temporal spans. Simple task decomposition and retrieval-based methods often lose key information or fail at complex reasoning.
 
 Symphony addresses these limitations through:
@@ -62,11 +64,13 @@ Symphony achieves state-of-the-art performance across four representative LVU da
     ```bash
     git clone https://github.com/Haiyang0226/Symphony.git
     cd Symphony
+    
     ```
 
 2.  **Install dependencies:**
     ```bash
-    pip install -r requirements.txt
+    conda env create -f environment.yml
+    conda activate sym
     ```
 
 3.  **Configure API Keys:**
