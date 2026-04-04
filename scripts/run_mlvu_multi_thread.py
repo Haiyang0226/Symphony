@@ -9,14 +9,8 @@ import re
 
 from video_understanding import VideoUnderstandingSystem
 
-api_keys = [
-    "sk-b140964251004b37899f8a8d577f98e5",
-    "sk-1dad85dab17249558617461510b0b0b4",
-    # "sk-63d4b54914714d83b01873a12dc3cf83",
-    "sk-25b26b460bae47b8b8dff06d64dc2997"
-]
 
-# 添加一个全局计数器用于轮询API key
+
 current_api_key_index = 0
 
 def get_next_api_key():
