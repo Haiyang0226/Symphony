@@ -74,7 +74,7 @@ Symphony achieves state-of-the-art performance across four representative LVU da
 
 4.  **Run Inference:**
     ```bash
-    python run.py --question "Your question here" --video_path "path/to/video.mp4"
+    python run_single.py
     ```
 
 ## 📝 Citation
