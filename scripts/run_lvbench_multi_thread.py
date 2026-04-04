@@ -9,18 +9,6 @@ import re
 
 from video_understanding import VideoUnderstandingSystem
 
-
-
-current_api_key_index = 0
-
-def get_next_api_key():
-    global current_api_key_index
-    api_key = api_keys[current_api_key_index]
-    current_api_key_index = (current_api_key_index + 1) % len(api_keys)
-    return api_key
-
-
-# 日志记录函数
 def log_to_file(message, log_file='process_log.txt'):
     try:
         timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -39,39 +27,16 @@ def get_duration(folder_path):
 
 # 处理单个项目的函数
 def process_item(item, idx):
-    # if idx not in [i for i in range(100)]:
-    #     return None
-    # if idx not in ours_wrong_idx_lvbench[:30]:
-    #     return None
-    # if idx not in lv_random100:
-    #     return None
 
-
-    # if idx not in  [5, 7, 8, 11, 15, 19, 21, 29, 31, 32, 34, 49, 52, 55, 65, 66, 67, 68, 74, 81, 83, 85, 90, 93, 95, 105, 106, 107, 110, 114, 123, 124, 125, 135, 136, 137, 141, 142, 145, 146, 147, 149, 150, 151, 154, 160, 167, 170, 172, 173, 174, 176, 180, 189, 198, 204, 207, 215, 218, 223, 235, 236, 237, 240, 244, 245, 246, 247, 249, 250, 251, 274, 278, 280, 284, 285, 294, 296, 299, 300, 303, 309, 311, 312, 314, 316, 317, 320, 322, 323, 325, 326, 333, 340, 350, 352, 356, 358, 360, 379, 380, 385, 386, 389, 390, 394, 395, 398, 403, 405, 406, 409, 412, 417, 418, 420, 421, 422, 423, 425, 426, 432, 435, 436, 439, 442, 443, 444, 445, 451, 460, 461, 465, 466, 474, 476, 483, 486, 487, 489, 491, 492, 495, 496, 498, 499, 505, 507, 514, 515, 516, 519, 520, 521, 529, 531, 533, 539, 543, 544, 548, 549, 554, 555, 558, 559, 574, 577, 578, 579, 581, 583, 593, 600, 601, 604, 605, 607, 609, 610, 612, 615, 618, 637, 641, 642, 646, 647, 648, 650, 657, 659, 662, 664, 665, 666, 667, 669, 672, 677, 678, 680, 681, 682, 686, 687, 694, 695, 697, 700, 701, 703, 704, 707, 708, 710, 711, 712, 713, 718, 720, 721, 722, 723, 726, 727, 728, 731, 733, 737, 756, 758, 759, 760, 763, 764, 768, 774, 778, 790, 792, 814, 819, 825, 833, 838, 851, 859, 884] + [16, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 75, 111, 206, 210, 252, 253, 254, 255, 256, 257, 258, 259, 260, 261, 262, 263, 264, 265, 266, 267, 268, 269, 270, 275, 346, 431, 446, 456, 469, 470, 502, 511, 522, 530, 566, 572, 573, 575, 576, 582, 584, 585, 590, 591, 592, 594, 598, 599, 620, 628, 673, 676, 691, 741, 742, 743, 744, 745, 746, 747, 748, 749, 750, 751, 752, 788, 799, 800, 801, 802, 803, 804, 805, 806, 807, 808, 809, 810, 811, 812, 813, 826, 836, 837, 841, 853, 855, 864, 866, 867, 868, 874, 875, 877, 879, 881, 882, 886, 887, 888, 889, 890, 891, 892, 893, 894, 895, 896, 897, 898, 899, 926, 943, 954, 974, 997, 1009, 1045, 1046, 1079, 1182, 1210, 1224, 1289, 1298, 1322, 1341, 1362, 1393, 1395, 1413, 1455, 1458, 1492, 1547]:
-    #     return None
-
-    if idx not in range(500,700):
-        return None
-
-
-    # if idx not in [389]:
-    #     return None
 
     video_key = item.get('key')
     task_type = item.get('type')
     question_with_options = item.get('question')
     correct_answer = item.get('answer')
     uid = int(item.get('uid'))
-
-    # if uid not in lv_hard:
-    #     return None
-    # if idx != 317:
-    #     return None
-
-    api_key = get_next_api_key()
     
     # 为每个项目创建独立日志文件
-    result_log_file = f"/home/web_server/antispam/project/zhouhongyun/long_video/MAS/MAS_new_for_lv/test_logs/1102/lv_500_700_perceptionnew_with_reflex/{idx}_{video_key}"
+    result_log_file = f"LVBench/{idx}_{video_key}"
     if os.path.exists(result_log_file):
         with open(result_log_file, 'r', encoding='utf-8') as f:
             content = f.read()
@@ -86,8 +51,8 @@ def process_item(item, idx):
     
     
     # 构造路径
-    frame_root = '/home/web_server/antispam/project/zhouhongyun/long_video/DeepVideoDiscovery-main/video_database'
-    subtitle_root = ''
+    frame_root = './video_database/frames'
+    subtitle_root = './video_database/subtitles'
     
     frame_path = os.path.join(frame_root, video_key, 'frames')
     subtitle_path = os.path.join(subtitle_root, f"{video_key}.json")
@@ -162,7 +127,7 @@ def process_item(item, idx):
     return result
 
 # 全局配置
-json_file_path = '/home/web_server/antispam/project/zhouhongyun/long_video/LVBench/data/video_info_all.json'
+json_file_path = './LVBench/data/video_info_all.json'
 
 # 主函数 - 使用线程池处理所有项目
 def main():
