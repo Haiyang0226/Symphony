@@ -9,19 +9,6 @@ import re
 
 from video_understanding import VideoUnderstandingSystem
 
-api_keys = [
-]
-
-current_api_key_index = 0
-
-def get_next_api_key():
-    global current_api_key_index
-    api_key = api_keys[current_api_key_index]
-    current_api_key_index = (current_api_key_index + 1) % len(api_keys)
-    return api_key
-
-
-# 日志记录函数
 def log_to_file(message, log_file='process_log.txt'):
     try:
         timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -47,15 +34,15 @@ def process_item(item, idx):
     for i, candidate in enumerate(candidates):
         question_with_options += f"{i}. {candidate}\n"
     
-    frame_root = '/home/web_server/antispam/project/zhouhongyun/long_video/DeepVideoDiscovery-main/video_database'
-    subtitle_root = '/home/web_server/antispam/project/zhouhongyun/long_video/LongVideoBench/subtitles'
+    frame_root = './video_database/frames'
+    subtitle_root = './video_database/subtitles'
 
     subtitle_path = os.path.join(subtitle_root, item['subtitle_path'])
     frame_path = os.path.join(frame_root, video_key, 'frames')
     duration = item['duration']
     correct_answer = item['correct_choice']
 
-    result_log_file = f"/home/web_server/antispam/project/zhouhongyun/long_video/MAS/MAS_new/test_logs/1029/long_video/{idx}_{video_key}"
+    result_log_file = f"./long_video/{idx}_{video_key}"
 
     log_to_file(question_with_options, result_log_file)    
     if os.path.exists(result_log_file):
