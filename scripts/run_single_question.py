@@ -66,9 +66,9 @@ def process_single(question, frame_path, subtitle_path, log_file, data_name="lv_
 if __name__ == "__main__":
     # ===== 在这里修改输入 =====
     question = ""
-    frame_path = "/home/web_server/antispam/project/zhouhongyun/kuai_midvideo/tools/photo/1442462243/clips"
+    frame_path = "./clips"
     subtitle_path = ""
-    log_file = "/home/web_server/antispam/project/zhouhongyun/kuai_midvideo/MAS_result/output_log.txt"
+    log_file = "./MAS_result/output_log.txt"
     # ==========================
 
     result = process_single(question, frame_path, subtitle_path, log_file)
