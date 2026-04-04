@@ -6,21 +6,6 @@ import re
 
 from video_understanding import VideoUnderstandingSystem
 
-API_KEYS = [
-    "sk-b140964251004b37899f8a8d577f98e5",
-    "sk-1dad85dab17249558617461510b0b0b4",
-    "sk-25b26b460bae47b8b8dff06d64dc2997"
-]
-
-current_api_key_index = 0
-
-def get_next_api_key():
-    global current_api_key_index
-    api_key = API_KEYS[current_api_key_index]
-    current_api_key_index = (current_api_key_index + 1) % len(API_KEYS)
-    return api_key
-
-
 def log_to_file(message, log_file):
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     with open(log_file, 'a', encoding='utf-8') as f:
