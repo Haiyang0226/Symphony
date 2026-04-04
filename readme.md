@@ -8,8 +8,6 @@
 
 ## 📖 Introduction
 
-We are currently organizing the code.
-
 Long-form video understanding is critical for applications like sports commentary, intelligent surveillance, and film analysis. However, existing Multimodal Large Language Model (MLLM) agents struggle with high information density and extended temporal spans. Simple task decomposition and retrieval-based methods often lose key information or fail at complex reasoning.
 
 Symphony addresses these limitations through:
@@ -57,8 +55,6 @@ Symphony achieves state-of-the-art performance across four representative LVU da
 
 
 ## 📦 Installation & Usage
-
-*(Note: Specific installation instructions should be derived from the actual code repository. The following is a general guideline based on the paper.)*
 
 1.  **Clone the repository:**
     ```bash
