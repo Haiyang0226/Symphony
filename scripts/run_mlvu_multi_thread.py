@@ -9,18 +9,6 @@ import re
 
 from video_understanding import VideoUnderstandingSystem
 
-
-
-current_api_key_index = 0
-
-def get_next_api_key():
-    global current_api_key_index
-    api_key = api_keys[current_api_key_index]
-    current_api_key_index = (current_api_key_index + 1) % len(api_keys)
-    return api_key
-
-
-# 日志记录函数
 def log_to_file(message, log_file='process_log.txt'):
     try:
         timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -53,7 +41,6 @@ def process_item(item, json_file_name, idx):
 
     i_to_options = ['A','B','C','D','E','F','G','H','I']
 
-    api_key = get_next_api_key()
     
     # 为每个项目创建独立日志文件
     result_log_file = f"/home/web_server/antispam/project/zhouhongyun/long_video/MAS/MAS_new_for_lv/test_logs/1102/mlvu/{idx}_{video_key}"
@@ -79,8 +66,8 @@ def process_item(item, json_file_name, idx):
     log_to_file(question_with_options, result_log_file)
     
     # 构造路径
-    frame_root = '/home/web_server/antispam/project/zhouhongyun/long_video/DeepVideoDiscovery-main/video_database'
-    subtitle_root = ''
+    frame_root = './video_database/frames'
+    subtitle_root = './video_database/subtitles'
     
     frame_path = os.path.join(frame_root, video_key, 'frames')
     subtitle_path = os.path.join(subtitle_root, f"{video_key}.json")
@@ -157,7 +144,7 @@ def process_item(item, json_file_name, idx):
 
 # 主函数 - 使用线程池处理所有项目
 def main():
-    json_dir = '/home/web_server/antispam/project/zhouhongyun/long_video/Mlvu/MLVU/json'
+    json_dir = '/MLVU/json'
     
     items_to_process = []
     json_files = sorted([f for f in os.listdir(json_dir) if f.endswith('.json')])
