@@ -72,9 +72,9 @@ Symphony achieves state-of-the-art performance across four representative LVU da
 3.  **Configure API Keys:**
     Ensure you have access to the required models (DeepSeek, Seed VL, etc.) and configure your API keys in the `config.yaml` file.
 
-4.  **Prepare frames,subtitles:**
-   Download the subtitles in ./databse/subtitles/
-   Download the videos in ./databse/videos/. To sample the frames, run
+4.  **Prepare frames,subtitles:**  
+   Download the subtitles in ./databse/subtitles/  
+   Download the videos in ./databse/videos/. To sample the frames, run  
    ```bash
    video2frames.py
    ```
