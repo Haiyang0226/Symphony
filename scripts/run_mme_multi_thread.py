@@ -9,19 +9,6 @@ import re
 
 from video_understanding import VideoUnderstandingSystem
 
-
-
-# 添加一个全局计数器用于轮询API key
-current_api_key_index = 0
-
-def get_next_api_key():
-    global current_api_key_index
-    api_key = api_keys[current_api_key_index]
-    current_api_key_index = (current_api_key_index + 1) % len(api_keys)
-    return api_key
-
-
-# 日志记录函数
 def log_to_file(message, log_file='process_log.txt'):
     try:
         timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -38,15 +25,8 @@ def get_duration(folder_path):
     return int(max_number/2)
 
 
-# 处理单个项目的函数
+
 def process_item(item, idx):
-    
-    # if idx not in ours_wrong_idx_mmelong[:50]:
-    #     return None
-
-    # if idx not in [i for i in range(30)]:
-    #     return None
-
     if idx not in mme_random100:
         return None
 
@@ -60,7 +40,7 @@ def process_item(item, idx):
     api_key = get_next_api_key()
     
     # 为每个项目创建独立日志文件
-    result_log_file = f"/home/web_server/antispam/project/zhouhongyun/long_video/MAS/MAS_new/test_logs/1024/mme_with_local_summary_wanqing/{idx}_{video_key}"
+    result_log_file = f"./test_logs/1024/mme_with_local_summary_wanqing/{idx}_{video_key}"
 
     if os.path.exists(result_log_file):
         with open(result_log_file, 'r', encoding='utf-8') as f:
@@ -79,13 +59,12 @@ def process_item(item, idx):
     log_to_file(question_with_options, result_log_file)
     
     # 构造路径
-    frame_root = '/home/web_server/antispam/project/zhouhongyun/long_video/DeepVideoDiscovery-main/video_database'
-    subtitle_root = '/home/web_server/antispam/project/zhouhongyun/long_video/videomme/subtitle_json'
+    frame_root = './video_database/frames'
+    subtitle_root = './video_database/subtitle'
     
     frame_path = os.path.join(frame_root, video_key, 'frames')
     subtitle_path = os.path.join(subtitle_root, f"{video_key}.json")
     
-    # 检查帧路径是否存在
     if not os.path.exists(frame_path):
         error_msg = f"[{idx}] [错误] 帧路径不存在: {frame_path}"
         print(error_msg)
@@ -119,7 +98,7 @@ def process_item(item, idx):
                 data_name = "video_mme"
             )
             final_result = Vus.run()
-            # 运行推理
+    
             
             success_msg = f"[{idx}] 问题处理成功! 正确答案: {correct_answer}"
             log_to_file(success_msg, result_log_file)
@@ -141,7 +120,7 @@ def process_item(item, idx):
             print(error_msg)
             log_to_file(error_msg, result_log_file)
             if retry_count < max_retries:
-                time.sleep(1)  # 重试前等待1秒
+                time.sleep(1) 
     
     if not success:
         fail_msg = f"[{idx}] [失败] 项目处理失败，已达最大重试次数"
