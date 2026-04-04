@@ -38,21 +38,7 @@ def get_duration(folder_path):
     return int(max_number/2)
 
 
-# 处理单个项目的函数
 def process_item(item, idx):
-    
-    # if idx not in ours_wrong_idx_mmelong[:50]:
-    #     return None
-
-    # if idx not in [i for i in range(200)]:
-    #     return None
-
-    # if idx not in [1, 19, 20, 21, 23, 28, 29, 33, 36, 40, 43, 48, 51, 57, 59, 63, 72, 76, 78, 83, 87, 94, 98, 100, 103, 107, 111, 113, 119, 122, 123, 124, 134, 137, 138, 141, 143, 147, 153, 170, 174, 181, 185, 194, 195, 198]:
-    #     return None
-
-    # if idx not in [197]:
-    #     return None
-
     video_path = item['video_path']
     video_key = os.path.splitext(video_path)[0]
     question = item['question']
@@ -72,8 +58,6 @@ def process_item(item, idx):
     result_log_file = f"/home/web_server/antispam/project/zhouhongyun/long_video/MAS/MAS_new/test_logs/1029/long_video/{idx}_{video_key}"
 
     log_to_file(question_with_options, result_log_file)    
-    # 为每个项目创建独立日志文件
-    # 恢复机制
     if os.path.exists(result_log_file):
         with open(result_log_file, 'r', encoding='utf-8') as f:
             content = f.read()
