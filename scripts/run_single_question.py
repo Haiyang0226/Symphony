@@ -1,8 +1,11 @@
 import os
+import sys
 import json
 import time
 import datetime
 import re
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from video_understanding import VideoUnderstandingSystem
 

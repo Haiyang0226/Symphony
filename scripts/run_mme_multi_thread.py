@@ -9,7 +9,8 @@ import re
 
 import config
 from video_understanding import VideoUnderstandingSystem
-
+import sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 # 设置帧、字幕路径
 frame_root = './video_database/frames'
 subtitle_root = './video_database/subtitle'
