@@ -16,7 +16,7 @@ HuoShan_API_KEY = ""  # Volcano Engine API key for doubao_vl
 AOAI_TOOL_VLM_MAX_FRAME_NUM = 30
 
 # ------------------ Dataset path configuration ------------------ #
-# Modify these paths according to your actual situation
+# Modify these paths according to your actual situation. These will be read when using run_xxx_multi_thread scripts to load the corresponding dataset JSON files.
 LONGVIDEO_DATA_PATH = ".../videomme/test-00000-of-00001.json"
 VIDEOMME_DATA_PATH = "..."
 MLVU_DATA_PATH = "..."
