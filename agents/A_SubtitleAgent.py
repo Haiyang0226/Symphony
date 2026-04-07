@@ -5,6 +5,7 @@ import os
 import re
 import json
 import logging
+import config
 from api import call_openai_model_with_tools_ali as call_openai_model
 
 

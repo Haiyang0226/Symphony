@@ -2,7 +2,7 @@ import logging
 import json
 from api import call_openai_model_with_tools_ali as call_summarizer_llm
 from utils import fix_and_parse_json
-
+import config
 class ReflectionAgent:
     def __init__(self, question, data_name, logger):
         self.question = question
