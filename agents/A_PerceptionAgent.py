@@ -133,8 +133,6 @@ class PerceptionAgent:
             for tt in range(6):
                 response = call_openai_model_with_tools(
                     msgs,
-                    endpoints=config.AOAI_ORCHESTRATOR_LLM_ENDPOINT_LIST,
-                    model_name=config.AOAI_ORCHESTRATOR_LLM_MODEL_NAME,
                     tools=self.function_schemas,
                     temperature=0.0,
                     api_key=config.ALi_API_KEY,

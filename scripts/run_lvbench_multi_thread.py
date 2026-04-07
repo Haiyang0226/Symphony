@@ -7,7 +7,12 @@ import time
 import datetime
 import re
 
+import config
 from video_understanding import VideoUnderstandingSystem
+
+# 设置帧、字幕路径
+frame_root = './video_database/frames'
+subtitle_root = './video_database/subtitles'
 
 def log_to_file(message, log_file='process_log.txt'):
     try:
@@ -48,11 +53,6 @@ def process_item(item, idx):
     log_to_file(start_msg, result_log_file)
 
     log_to_file(question_with_options, result_log_file)
-    
-    
-    # 构造路径
-    frame_root = './video_database/frames'
-    subtitle_root = './video_database/subtitles'
     
     frame_path = os.path.join(frame_root, video_key, 'frames')
     subtitle_path = os.path.join(subtitle_root, f"{video_key}.json")
@@ -127,7 +127,7 @@ def process_item(item, idx):
     return result
 
 # 全局配置
-json_file_path = './LVBench/data/video_info_all.json'
+json_file_path = config.LVBENCH_DATA_PATH
 
 # 主函数 - 使用线程池处理所有项目
 def main():

@@ -1,6 +1,6 @@
 import json
 import logging
-from api import call_deepseek_wanqing as call_llm
+from api import call_openai_model_with_tools_ali as call_llm
 import config
 
 def get_json(json_string):
@@ -39,11 +39,7 @@ def fix_and_parse_json(json_string: str, logger: logging.Logger, try_to_fix: boo
         fixer_prompt = f"The following string is a malformed JSON. Correct it and return only the valid JSON object:\n\n{json_string}"
         
         try:
-            # In A_LocalizeAgent.py, it uses call_summarizer_llm, others use call_deepseek_wanqing
-            # We need a unified way to call the LLM. For now, we'll use call_deepseek_wanqing
-            # as it seems to be the more common one.
-            # You might need to adjust this part based on your specific LLM calling conventions.
-            from api import call_deepseek_wanqing as call_llm 
+            from api import call_openai_model_with_tools_ali as call_llm 
             
             response = call_llm([{"role": "user", "content": fixer_prompt}])
             corrected_str = response.get("content", "").strip()

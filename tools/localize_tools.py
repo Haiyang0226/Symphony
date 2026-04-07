@@ -8,7 +8,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from typing import Annotated as A
 from tools.func_call_shema import doc as D
-from api import call_seed_vl_with_tools_wanqin as call_openai_model_with_tools #seed
+from api import call_seed_vl_with_tools_huoshan as call_openai_model_with_tools #seed
 from concurrent.futures import ThreadPoolExecutor
 import time
 
@@ -195,7 +195,6 @@ def judge_question_relevance(frames: List[str], question: str, idx: int):
     try:
         resp = call_openai_model_with_tools(
             send_messages,
-            model_name=config.AOAI_CAPTION_VLM_MODEL_NAME,
             return_json=True,  # 要求返回JSON格式
             image_paths=frames,  # 传递图像路径列表
             down_sample_frame=True

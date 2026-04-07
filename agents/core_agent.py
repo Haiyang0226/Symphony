@@ -41,6 +41,7 @@ class CoreAgent:
         response = call_openai_model(
             messages=messages,
             temperature=0.0,
+            api_key=config.ALi_API_KEY,
         )
         
         return response["content"]

@@ -7,7 +7,12 @@ import time
 import datetime
 import re
 
+import config
 from video_understanding import VideoUnderstandingSystem
+
+# 设置帧、字幕路径
+frame_root = './video_database/frames'
+subtitle_root = './video_database/subtitles'
 
 def log_to_file(message, log_file='process_log.txt'):
     try:
@@ -42,8 +47,8 @@ def process_item(item, json_file_name, idx):
     i_to_options = ['A','B','C','D','E','F','G','H','I']
 
     
-    # 为每个项目创建独立日志文件
-    result_log_file = f"/home/web_server/antispam/project/zhouhongyun/long_video/MAS/MAS_new_for_lv/test_logs/1102/mlvu/{idx}_{video_key}"
+    # 为每个项目创建独立日志文件（使用相对路径）
+    result_log_file = f"./test_logs/mlvu/{idx}_{video_key}"
 
     if os.path.exists(result_log_file):
         with open(result_log_file, 'r', encoding='utf-8') as f:
@@ -64,10 +69,6 @@ def process_item(item, json_file_name, idx):
             correct_answer_op = i_to_options[i]
 
     log_to_file(question_with_options, result_log_file)
-    
-    # 构造路径
-    frame_root = './video_database/frames'
-    subtitle_root = './video_database/subtitles'
     
     frame_path = os.path.join(frame_root, video_key, 'frames')
     subtitle_path = os.path.join(subtitle_root, f"{video_key}.json")
@@ -144,7 +145,7 @@ def process_item(item, json_file_name, idx):
 
 # 主函数 - 使用线程池处理所有项目
 def main():
-    json_dir = '/MLVU/json'
+    json_dir = config.MLVU_DATA_PATH
     
     items_to_process = []
     json_files = sorted([f for f in os.listdir(json_dir) if f.endswith('.json')])

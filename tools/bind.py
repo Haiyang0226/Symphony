@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import List, Dict, Any, Tuple
 import logging
 import random
+import config
 
 os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,2,3'
 
@@ -32,7 +33,7 @@ class VideoQAProcessor:
             #'audio': 'LanguageBind_Audio',
             'image': 'LanguageBind_Image'
         }
-        self.pretrained_ckpt = '/home/web_server/antispam/project/zhouhongyun/models/LanguageBind/LanguageBind_Image'
+        self.pretrained_ckpt = config.LANGUAGEBIND_MODEL_PATH
         
         # 组件初始化
         self.model = None

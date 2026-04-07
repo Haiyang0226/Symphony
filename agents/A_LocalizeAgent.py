@@ -103,11 +103,9 @@ class LocalizeAgent:
         for times_i in range(6):
             response = call_openai_model_with_tools(
                 msgs,
-                endpoints=config.AOAI_ORCHESTRATOR_LLM_ENDPOINT_LIST,
-                model_name=config.AOAI_ORCHESTRATOR_LLM_MODEL_NAME,
                 tools=self.function_schemas,
                 temperature=0.0,
-                api_key=config.OPENAI_API_KEY,
+                api_key=config.ALi_API_KEY,
             )
             if response.get("tool_calls") == None:
                 self.logger.info(f"tool call None!!! try again -- {response}")

@@ -121,7 +121,6 @@ def retrieve_and_ans_tool(
 
     msgs = call_openai_model_with_tools(
         messages=input_msgs,
-        model_name=config.AOAI_TOOL_VLM_MODEL_NAME,
         api_key=config.HuoShan_API_KEY,
         image_paths=all_framepaths,
         temperature=0,
@@ -181,9 +180,7 @@ def frame_associate_tool(
 
     msgs = call_openai_model_with_tools(
         messages=input_msgs,
-        endpoints=config.AOAI_TOOL_VLM_ENDPOINT_LIST,
-        model_name=config.AOAI_TOOL_VLM_MODEL_NAME,
-        api_key=config.OPENAI_API_KEY,
+        api_key=config.HuoShan_API_KEY,
         image_paths=all_framepaths,
         temperature=0,
         max_tokens=512,
@@ -262,9 +259,7 @@ Analyze all provided frames: Carefully examine the visual details (e.g., objects
 
     msgs = call_openai_model_with_tools(
         messages=input_msgs,
-        endpoints=config.AOAI_TOOL_VLM_ENDPOINT_LIST,
-        model_name=config.AOAI_TOOL_VLM_MODEL_NAME,
-        api_key=config.OPENAI_API_KEY,
+        api_key=config.HuoShan_API_KEY,
         image_paths=all_framepaths,
         temperature=0,
         max_tokens=512,
@@ -362,9 +357,7 @@ def interval_summary_tool(
     
     msgs = call_openai_model_with_tools(
         messages=input_msgs,
-        endpoints=config.AOAI_TOOL_VLM_ENDPOINT_LIST,
-        model_name=config.AOAI_TOOL_VLM_MODEL_NAME,
-        api_key=config.OPENAI_API_KEY,
+        api_key=config.HuoShan_API_KEY,
         image_paths=files,
         temperature=0,
         max_tokens=512,
@@ -463,9 +456,7 @@ def associate(
     ]
     msgs = call_openai_model_with_tools(
         messages=input_msgs,
-        endpoints=config.AOAI_TOOL_VLM_ENDPOINT_LIST,
-        model_name=config.AOAI_TOOL_VLM_MODEL_NAME,
-        api_key=config.OPENAI_API_KEY,
+        api_key=config.HuoShan_API_KEY,
         image_paths=files,
         temperature=0,
         max_tokens=512,
@@ -619,9 +610,7 @@ def associate(
     # Call the model
     msgs = call_openai_model_with_tools(
         messages=input_msgs,
-        endpoints=config.AOAI_TOOL_VLM_ENDPOINT_LIST,
-        model_name=config.AOAI_TOOL_VLM_MODEL_NAME,
-        api_key=config.OPENAI_API_KEY,
+        api_key=config.HuoShan_API_KEY,
         image_paths=image_paths,
         temperature=0,
         max_tokens=512,

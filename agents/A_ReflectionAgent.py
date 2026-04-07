@@ -61,6 +61,7 @@ Please return only the JSON object."""
         response = call_summarizer_llm(
             messages=msgs,
             temperature=0.0,
+            api_key=config.ALi_API_KEY,
         )
 
         if response and response.get("content"):

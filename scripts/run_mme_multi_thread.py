@@ -7,7 +7,12 @@ import time
 import datetime
 import re
 
+import config
 from video_understanding import VideoUnderstandingSystem
+
+# 设置帧、字幕路径
+frame_root = './video_database/frames'
+subtitle_root = './video_database/subtitle'
 
 def log_to_file(message, log_file='process_log.txt'):
     try:
@@ -40,7 +45,7 @@ def process_item(item, idx):
     api_key = get_next_api_key()
     
     # 为每个项目创建独立日志文件
-    result_log_file = f"./test_logs/1024/mme_with_local_summary_wanqing/{idx}_{video_key}"
+    result_log_file = f"./test_logs/mme/{idx}_{video_key}"
 
     if os.path.exists(result_log_file):
         with open(result_log_file, 'r', encoding='utf-8') as f:
@@ -57,10 +62,6 @@ def process_item(item, idx):
     option_lines = "\n".join([f"{opt}" for opt in options])
     question_with_options = question + "\n" + option_lines
     log_to_file(question_with_options, result_log_file)
-    
-    # 构造路径
-    frame_root = './video_database/frames'
-    subtitle_root = './video_database/subtitle'
     
     frame_path = os.path.join(frame_root, video_key, 'frames')
     subtitle_path = os.path.join(subtitle_root, f"{video_key}.json")
@@ -134,7 +135,7 @@ def process_item(item, idx):
     return result
 
 # 全局配置
-jsonl_file = '/home/web_server/antispam/project/zhouhongyun/long_video/videomme/videomme/test-00000-of-00001.json'
+jsonl_file = config.VIDEOMME_DATA_PATH
 
 # 主函数 - 使用线程池处理所有项目
 def main():

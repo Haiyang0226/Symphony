@@ -7,7 +7,12 @@ import time
 import datetime
 import re
 
+import config
 from video_understanding import VideoUnderstandingSystem
+
+# 设置帧、字幕路径
+frame_root = './video_database/frames'
+subtitle_root = './video_database/subtitles'
 
 def log_to_file(message, log_file='process_log.txt'):
     try:
@@ -33,9 +38,6 @@ def process_item(item, idx):
     question_with_options = question + "\nOptions:\n"
     for i, candidate in enumerate(candidates):
         question_with_options += f"{i}. {candidate}\n"
-    
-    frame_root = './video_database/frames'
-    subtitle_root = './video_database/subtitles'
 
     subtitle_path = os.path.join(subtitle_root, item['subtitle_path'])
     frame_path = os.path.join(frame_root, video_key, 'frames')
@@ -127,7 +129,7 @@ def process_item(item, idx):
     return result
 
 # 全局配置
-json_file_path = '/home/web_server/antispam/project/zhouhongyun/long_video/LongVideoBench/lvb_val.json'
+json_file_path = config.LONGVIDEO_DATA_PATH
 
 # 主函数 - 使用线程池处理所有项目
 def main():

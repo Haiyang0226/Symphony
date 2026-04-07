@@ -7,20 +7,23 @@ VIDEO_FPS = 2 # frames per second
 CLIP_SECS = 10 # seconds
 
 # ------------------ model configuration ------------------ #
-ALi_API_KEY = ""
-HuoShan_API_KEY = ""
+# API Keys - 请在此处设置您的API密钥
+ALi_API_KEY = ""  # 阿里云API密钥 for deepseek
+HuoShan_API_KEY = ""  # 火山引擎API密钥 for doubao_vl
 
-AOAI_CAPTION_VLM_ENDPOINT_LIST = [""]
-AOAI_ORCHESTRATOR_LLM_ENDPOINT_LIST = [""]
-
-AOAI_ORCHESTRATOR_LLM_MODEL_NAME = "deepseek-r1"
-AOAI_TOOL_VLM_MODEL_NAME = "doubao-seed-1-6-vision-250815"
+# 模型配置 - 注意：model_name和base_url已在api.py的函数中写死
 
 AOAI_TOOL_VLM_MAX_FRAME_NUM = 30
 
-AOAI_EMBEDDING_RESOURCE_LIST = [""]
-AOAI_EMBEDDING_LARGE_MODEL_NAME = "Qwen/Qwen3-Embedding-4B"
-AOAI_EMBEDDING_LARGE_DIM = 2560
+# ------------------ 数据集路径配置 ------------------ #
+# 根据实际情况修改这些路径
+LONGVIDEO_DATA_PATH = ""
+VIDEOMME_DATA_PATH = ""
+MLVU_DATA_PATH = ""
+LVBENCH_DATA_PATH = ""
+
+# ------------------ languagebind_image模型权重路径 ------------------ #
+LANGUAGEBIND_MODEL_PATH = ""
 
 # ------------------ agent and tool setting ------------------ #
 OVERWRITE_CLIP_SEARCH_TOPK = 0 # 0 means no overwrite and let agent decide
