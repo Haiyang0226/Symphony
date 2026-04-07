@@ -197,7 +197,6 @@ def judge_question_relevance(frames: List[str], question: str, idx: int):
             send_messages,
             return_json=True,  # 要求返回JSON格式
             image_paths=frames,  # 传递图像路径列表
-            down_sample_frame=True
         )["content"]
         #print(resp)
 

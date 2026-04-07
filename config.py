@@ -17,10 +17,10 @@ AOAI_TOOL_VLM_MAX_FRAME_NUM = 30
 
 # ------------------ 数据集路径配置 ------------------ #
 # 根据实际情况修改这些路径
-LONGVIDEO_DATA_PATH = ""
-VIDEOMME_DATA_PATH = ""
-MLVU_DATA_PATH = ""
-LVBENCH_DATA_PATH = ""
+LONGVIDEO_DATA_PATH = ".../videomme/test-00000-of-00001.json"
+VIDEOMME_DATA_PATH = "..."
+MLVU_DATA_PATH = "..."
+LVBENCH_DATA_PATH = "..."
 
 # ------------------ languagebind_image模型权重路径 ------------------ #
 LANGUAGEBIND_MODEL_PATH = ""
