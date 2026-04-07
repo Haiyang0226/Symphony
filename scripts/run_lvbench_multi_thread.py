@@ -11,7 +11,7 @@ import config
 from video_understanding import VideoUnderstandingSystem
 import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-# 设置帧、字幕路径
+# Set frame and subtitle paths. Frames can be obtained via video2frames.py; subtitles were converted using Whisper large
 frame_root = './video_database/frames'
 subtitle_root = './video_database/subtitles'
 
@@ -22,7 +22,7 @@ def log_to_file(message, log_file='process_log.txt'):
         with open(log_file, 'a', encoding='utf-8') as f:
             f.write(log_entry)
     except Exception as e:
-        print(f"日志写入失败: {e}")
+        print(f"Failed to write log: {e}")
 
 def get_duration(folder_path):
     files = os.listdir(folder_path)
@@ -31,7 +31,7 @@ def get_duration(folder_path):
     return int(max_number/2)
 
 
-# 处理单个项目的函数
+# Function to process individual items
 def process_item(item, idx):
 
 
@@ -41,16 +41,16 @@ def process_item(item, idx):
     correct_answer = item.get('answer')
     uid = int(item.get('uid'))
     
-    # 为每个项目创建独立日志文件
+    # Create independent log file for each item
     result_log_file = f"LVBench/{idx}_{video_key}"
     if os.path.exists(result_log_file):
         with open(result_log_file, 'r', encoding='utf-8') as f:
             content = f.read()
             if "Final answer:{'status':" in content:
-                print(f"[{idx}] 项目已处理，跳过: {video_key}")
+                print(f"[{idx}] Item already processed, skipping: {video_key}")
                 return  None
     
-    start_msg = f"[{idx}] 开始处理项目: {video_key}"
+    start_msg = f"[{idx}] Starting to process item: {video_key}"
     log_to_file(start_msg, result_log_file)
 
     log_to_file(question_with_options, result_log_file)
@@ -58,23 +58,23 @@ def process_item(item, idx):
     frame_path = os.path.join(frame_root, video_key, 'frames')
     subtitle_path = os.path.join(subtitle_root, f"{video_key}.json")
     
-    # 检查帧路径是否存在
+    # Check if frame path exists
     if not os.path.exists(frame_path):
-        error_msg = f"[{idx}] [错误] 帧路径不存在: {frame_path}"
+        error_msg = f"[{idx}] [Error] Frame path does not exist: {frame_path}"
         print(error_msg)
         log_to_file(error_msg, result_log_file)
         return None
 
     try:
         frame_count = len([f for f in os.listdir(frame_path) if os.path.isfile(os.path.join(frame_path, f))])
-        time_val = frame_count / 2  # 假设每秒2帧
+        time_val = frame_count / 2  # Assume 2 frames per second
     except Exception as e:
-        error_msg = f"[{idx}] [错误] 无法计算帧数: {str(e)}"
+        error_msg = f"[{idx}] [Error] Unable to count frames: {str(e)}"
         print(error_msg)
         log_to_file(error_msg, result_log_file)
         return None
     
-    # 重试机制
+    # Retry mechanism
     max_retries = 2
     retry_count = 0
     success = False
@@ -82,7 +82,7 @@ def process_item(item, idx):
     
     while not success and retry_count < max_retries:
         try:            
-            # 初始化 Agent
+            # Initialize Agent
             Vus = VideoUnderstandingSystem(
                 video_duration = time_val,
                 question = question_with_options,
@@ -94,9 +94,9 @@ def process_item(item, idx):
             final_result = Vus.run()
 
             
-            # 运行推理
+            # Run inference
             
-            success_msg = f"[{idx}] 问题处理成功! 正确答案: {correct_answer}"
+            success_msg = f"[{idx}] Question processed successfully! Correct answer: {correct_answer}"
             log_to_file(success_msg, result_log_file)
             log_to_file(f"Final answer:{final_result}", result_log_file)
             
@@ -110,76 +110,76 @@ def process_item(item, idx):
             success = True
         except Exception as e:
             retry_count += 1
-            error_msg = f"[{idx}] 处理错误 - 重试 {retry_count}/{max_retries}: {str(e)}"
+            error_msg = f"[{idx}] Processing error - retry {retry_count}/{max_retries}: {str(e)}"
             print(error_msg)
             log_to_file(error_msg, result_log_file)
             if retry_count < max_retries:
-                time.sleep(1)  # 重试前等待1秒
+                time.sleep(1)  # Wait 1 second before retry
     
     if not success:
-        fail_msg = f"[{idx}] [失败] 项目处理失败，已达最大重试次数"
+        fail_msg = f"[{idx}] [Failed] Item processing failed, maximum retries reached"
         print(fail_msg)
         log_to_file(fail_msg, result_log_file)
     
-    # 记录分隔线
+    # Record separator line
     separator = "-" * 60
     log_to_file(separator, result_log_file)
     
     return result
 
-# 全局配置
+# Global configuration
 json_file_path = config.LVBENCH_DATA_PATH
 
-# 主函数 - 使用线程池处理所有项目
+# Main function - process all items using thread pool
 def main():
     
-    # 收集所有项目
+    # Collect all items
     items = []
     try:
         with open(json_file_path, 'r', encoding='utf-8') as f:
             data = json.load(f)  # 直接加载整个JSON文件
             
-            # 假设JSON文件是一个包含所有项目的列表
+            # Assume JSON file is a list containing all items
             for idx, item in enumerate(data):
                 items.append((item, idx))
     except Exception as e:
-        print(f"读取JSON文件失败: {str(e)}")
+        print(f"Failed to read JSON file: {str(e)}")
         return
     
-    # 创建线程池 - 根据系统资源调整线程数
+    # Create thread pool - adjust thread count based on system resources
     max_workers = 40
     all_results = []
     
-    start_msg = f"开始处理 {len(items)} 个项目，使用 {max_workers} 个线程"
+    start_msg = f"Starting to process {len(items)} items using {max_workers} threads"
     print(start_msg)
     
     start_time = time.time()
     
-    # 使用线程池处理
+    # Process using thread pool
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        # 提交所有任务
+        # Submit all tasks
         futures = {}
         for item, idx in items:
             future = executor.submit(process_item, item, idx)
             futures[future] = idx
         
-        # 等待所有任务完成并处理结果
+        # Wait for all tasks to complete and process results
         for future in as_completed(futures):
             idx = futures[future]
             try:
                 result = future.result()
                 if result:
                     all_results.append(result)
-                    success_msg = f"[{idx}] 项目处理完成!"
+                    success_msg = f"[{idx}] Item processed successfully!"
                     print(success_msg)
                 else:
-                    error_msg = f"[{idx}] 项目处理失败!"
+                    error_msg = f"[{idx}] Item processing failed!"
                     print(error_msg)
             except Exception as e:
-                error_msg = f"[{idx}] 线程异常: {str(e)}"
+                error_msg = f"[{idx}] Thread exception: {str(e)}"
                 print(error_msg)
     
-    # 保存所有结果到文件
+    # Save all results to file
     timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
     
     end_time = time.time()
@@ -187,9 +187,9 @@ def main():
     avg_time = duration / len(items) if items else 0
     
     summary = (
-        f"所有任务处理完成! 总耗时: {duration:.2f}秒\n"
-        f"处理项目数量: {len(all_results)}/{len(items)}\n"
-        f"平均每个项目耗时: {avg_time:.2f}秒"
+        f"All tasks completed! Total time: {duration:.2f} seconds\n"
+        f"Processed items: {len(all_results)}/{len(items)}\n"
+        f"Average time per item: {avg_time:.2f} seconds"
     )
     
     print(summary)

@@ -12,10 +12,10 @@ from api import call_seed_vl_with_tools_huoshan as call_openai_model_with_tools 
 from concurrent.futures import ThreadPoolExecutor
 import time
 
-# 系统提示语
+# System prompt
 SYSTEM_PROMPT = "You are a helpful assistant skilled in video understanding and question analysis."
 
-# 用户提示语模板
+# User prompt template
 
 
 # JUDGEMENT_PROMPT = """
@@ -136,28 +136,28 @@ fps = 0.5
 sample_interval = int(2/fps)
 
 def format_time(seconds: int) -> str:
-    """将秒数转换为 HH:MM:SS 格式"""
+    """Convert seconds to HH:MM:SS format"""
     h = seconds // 3600
     m = (seconds % 3600) // 60
     s = seconds % 60
     return f"{h:02d}:{m:02d}:{s:02d}"
 
 def get_frame_paths(frame_folder: str) -> List[str]:
-    """获取所有帧路径，并按名称排序"""
+    """Get all frame paths and sort by name"""
     frame_files = [f for f in os.listdir(frame_folder) if f.endswith(".jpg")]
     frame_files.sort()
     return [os.path.join(frame_folder, f) for f in frame_files]
 
 
 def group_frames(frame_paths: List[str]) -> List[List[str]]:
-    """按分钟分组，每组采样30帧（每4帧采样一次）"""
+    """Group by minute, sampling 30 frames per group (sample every 4 frames)"""
     frames_per_minute = 2 * fenzu_time  # 2fps * 60秒 = 120帧/分钟
     sampled_per_minute = frames_per_minute // sample_interval  # 120/4 = 30帧
     
     groups = []
     total_frames = len(frame_paths)
     
-    # 计算有多少个完整的分钟段
+    # Calculate number of complete minute segments
     num_minutes = total_frames // frames_per_minute +1
     
     for minute in range(num_minutes):
@@ -166,7 +166,7 @@ def group_frames(frame_paths: List[str]) -> List[List[str]]:
 
         end_idx =min(end_idx,total_frames)
             
-        # 在当前分钟内每隔4帧采样一次
+        # Sample every 4 frames within the current minute
         group = [frame_paths[i] for i in range(start_idx, end_idx, sample_interval)]
         groups.append(group)
     
@@ -174,9 +174,9 @@ def group_frames(frame_paths: List[str]) -> List[List[str]]:
 
 
 def judge_question_relevance(frames: List[str], question: str, idx: int):
-    """判断问题与一组帧的相关性，返回结果数据"""
+    """Judge the relevance between question and a group of frames, return result data"""
     
-    # 每组代表1分钟（60秒），起始时间为 idx * 60 秒
+    # Each group represents 1 minute (60 seconds), start time is idx * 60 seconds
     start_sec = idx * fenzu_time
     end_sec = start_sec + fenzu_time - 1  # 每组覆盖60秒（0-59秒）
 
@@ -200,14 +200,14 @@ def judge_question_relevance(frames: List[str], question: str, idx: int):
         )["content"]
         #print(resp)
 
-        # 解析响应
+        # Parse response
         if isinstance(resp, str):
             result = json.loads(resp)
         else:
             result = resp
         # result = resp
 
-        # 构造输出数据
+        # Construct output data
         output_data = {
             "time": time_range,
             "judgement": result
@@ -224,23 +224,23 @@ def localize_tool(
     question: A[str, D("The question and options")],
     frame_path: A[str, D("The frames path")],
 ) -> List[str]:
-    # 获取所有帧的路径
+    # Get all frame paths
     frame_paths = get_frame_paths(frame_path)
     
-    # 按时间分组（假设每组代表1分钟）
+    # Group by time (assuming each group represents 1 minute)
     frame_groups = group_frames(frame_paths)
     print(f"Split into {len(frame_groups)} groups (1 minute each).")
 
-    # 存储所有相关性较高的结果
+    # Store all results with higher relevance
     all_results = []
 
 
     start_time = time.time()
     with ThreadPoolExecutor(max_workers=20) as executor:
-        # 提交所有任务到线程池
+        # Submit all tasks to thread pool
         future_to_group = {executor.submit(judge_question_relevance, group, question, idx): idx for idx, group in enumerate(frame_groups)}
         
-        # 创建一个列表来按顺序存储结果
+        # Create a list to store results in order
         results_in_order = [None] * len(frame_groups)
         
         for future in future_to_group:
@@ -253,9 +253,9 @@ def localize_tool(
     end_time = time.time()
     duration_time = end_time - start_time
 
-    # 过滤并收集结果
+    # Filter and collect results
     for result in results_in_order:
-        if result and result["judgement"]["relevance_score"] > 1:  # 仅保留相关性较高的结果
+        if result and result["judgement"]["relevance_score"] > 1:  # Only keep results with higher relevance
             all_results.append(result)
 
 

@@ -127,7 +127,7 @@ class PerceptionAgent:
                 msgs.append(
                     {
                         "role": "user",
-                        "content": "强制返回答案：请总结对话内容并对Instruct进行回答,以[answer]开头",
+                        "content": "Force return answer: Please summarize the conversation and answer the Instruct, starting with [answer]",
                     }
                 )
             for tt in range(6):
